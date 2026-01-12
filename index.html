@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Incentive Calculator</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="card" id="page1">
+  <h2>Sales Incentive Calculator</h2>
+
+  <label>Salesman Type</label>
+  <select id="type" onchange="toggleForm()">
+    <option value="primary">Primary Salesman</option>
+    <option value="secondary">Secondary Salesman</option>
+  </select>
+
+  <div id="form"></div>
+
+  <button onclick="calculate()">Calculate Incentive</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card" id="page2" style="display:none">
+  <h2>Incentive Summary</h2>
+
+  <div id="result"></div>
+
+  <button onclick="goBack()">⬅ Back</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
