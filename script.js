@@ -57,7 +57,7 @@ function toggleForm() {
       <label>Total Resources</label>
       <input id="resources" type="number">
 
-      <label>Resources Meeting Touchpoint</label>
+      <label>Resources Met TP TGT</label>
       <input id="qualified" type="number">
     `;
   } else {
@@ -139,4 +139,5 @@ function goBack() {
   document.getElementById("page2").style.display = "none";
   document.getElementById("page1").style.display = "block";
 }
+
 
