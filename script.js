@@ -23,7 +23,7 @@ async function findEmployee() {
   if (!code) return;
 
   const { data, error } = await supabaseClient
-    .from("employees_clean")
+    .from("employees")
     .select("*")
     .eq("employee_code", code)
     .single();
@@ -138,3 +138,4 @@ function goBack() {
   document.getElementById("page2").style.display = "none";
   document.getElementById("page1").style.display = "block";
 }
+
