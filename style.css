@@ -1,15 +1,20 @@
 body {
   background: linear-gradient(to right, #1E3A8A, #10B981);
-  font-family: Arial;
+  font-family: Arial, sans-serif;
 }
 
 .card {
   background: white;
-  width: 400px;
-  margin: 50px auto;
+  width: 420px;
+  margin: 40px auto;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 label {
@@ -22,6 +27,12 @@ input, select {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+input:disabled {
+  background: #F3F4F6;
 }
 
 button {
@@ -33,11 +44,15 @@ button {
   color: white;
   font-size: 16px;
   border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #059669;
 }
 
 #result {
-  margin-top: 15px;
-  background: #F3F4F6;
-  padding: 10px;
-  border-radius: 6px;
+  background: #F9FAFB;
+  padding: 15px;
+  border-radius: 8px;
 }
