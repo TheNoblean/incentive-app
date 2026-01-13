@@ -110,13 +110,28 @@ function calculate() {
       <hr>
       <h3>Total Payout: &#8358;${(sales + touch).toFixed(0)}</h3>
     `;
-  } else {
-    const generated = percent * 40000;
-    const sales = generated * 0.5;
+  }  else {
+
+    /* ---- SALES INCENTIVE ---- */
+
+    let salesIncentive = 0;
+    const salesPool = 20000; // 50% of ₦40,000
+
+    if (salesPercent >= 0.8) {
+      if (salesPercent > 2) salesPercent = 2; // cap at 200%
+      salesIncentive = salesPercent * salesPool;
+    }
+
+    /* ---- TOUCHPOINT INCENTIVE ---- */
+
     const tpTarget = Number(document.getElementById("tpTarget").value);
     const tpAchieved = Number(document.getElementById("tpAchieved").value);
-    const touch = tpAchieved >= tpTarget ? generated * 0.5 : 0;
 
+    let touchpointEarned = 0;
+
+    if (tpTarget && tpAchieved && tpAchieved >= tpTarget) {
+      touchpointEarned = 20000; // capped at 100%
+    }
     result = `
       <p>Sales Incentive: <b>&#8358;${sales.toFixed(0)}</b></p>
       <p>Touchpoint Earned: <b>&#8358;${touch.toFixed(0)}</b></p>
@@ -140,6 +155,7 @@ function goBack() {
   document.getElementById("page2").style.display = "none";
   document.getElementById("page1").style.display = "block";
 }
+
 
 
 
