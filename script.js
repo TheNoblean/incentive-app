@@ -35,6 +35,7 @@ async function findEmployee() {
 
   document.getElementById("empName").value = data.employee_name;
   document.getElementById("level").value = data.level_code;
+  document.getElementById("designation").value = data.designation;
 }
 
 /* ---------------- FORM TOGGLE ---------------- */
@@ -139,5 +140,6 @@ function goBack() {
   document.getElementById("page2").style.display = "none";
   document.getElementById("page1").style.display = "block";
 }
+
 
 
