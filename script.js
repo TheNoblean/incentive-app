@@ -84,33 +84,48 @@ function toggleForm() {
 function calculate() {
   const target = Number(document.getElementById("target").value);
   const achieved = Number(document.getElementById("achieved").value);
-  const percent = achieved / target;
+  const type = document.getElementById("type").value;
 
-  if (percent < 0.8) {
-    showResult("❌ Not Eligible (Below 80%)");
+  if (!target || !achieved) {
+    alert("Please enter sales target and achievement");
     return;
   }
 
-  const type = document.getElementById("type").value;
-  let result = "";
+  let salesPercent = achieved / target;
+
+  let resultHTML = "";
+
+  /* ================= PRIMARY SALESMAN (UNCHANGED) ================= */
 
   if (type === "primary") {
+
+    if (salesPercent < 0.8) {
+      showResult("❌ Not eligible (Sales below 80%)");
+      return;
+    }
+
     const level = document.getElementById("level").value;
     const proposed = levelMap[level];
+
     const resources = Number(document.getElementById("resources").value);
     const qualified = Number(document.getElementById("qualified").value);
 
-    const generated = percent * proposed;
-    const sales = generated * 0.6;
-    const touch = (generated * 0.4 / resources) * qualified;
+    const generated = salesPercent * proposed;
+    const salesIncentive = generated * 0.6;
+    const touchpointEarned = (generated * 0.4 / resources) * qualified;
 
-    result = `
-      <p>Sales Incentive: <b>&#8358;${sales.toFixed(0)}</b></p>
-      <p>Touchpoint Earned: <b>&#8358;${touch.toFixed(0)}</b></p>
+    resultHTML = `
+      <p>Sales Incentive: <b>₦${salesIncentive.toFixed(0)}</b></p>
+      <p>Touchpoint Earned: <b>₦${touchpointEarned.toFixed(0)}</b></p>
       <hr>
-      <h3>Total Payout: &#8358;${(sales + touch).toFixed(0)}</h3>
+      <h3>Total Payout: ₦${(salesIncentive + touchpointEarned).toFixed(0)}</h3>
     `;
-  }  else {
+
+  }
+
+  /* ================= SECONDARY SALESMAN (UPDATED LOGIC) ================= */
+
+  else {
 
     /* ---- SALES INCENTIVE ---- */
 
@@ -132,15 +147,16 @@ function calculate() {
     if (tpTarget && tpAchieved && tpAchieved >= tpTarget) {
       touchpointEarned = 20000; // capped at 100%
     }
-    result = `
-      <p>Sales Incentive: <b>&#8358;${sales.toFixed(0)}</b></p>
-      <p>Touchpoint Earned: <b>&#8358;${touch.toFixed(0)}</b></p>
+
+    resultHTML = `
+      <p>Sales Incentive: <b>₦${salesIncentive.toFixed(0)}</b></p>
+      <p>Touchpoint Earned: <b>₦${touchpointEarned.toFixed(0)}</b></p>
       <hr>
-      <h3>Total Payout: &#8358;${(sales + touch).toFixed(0)}</h3>
+      <h3>Total Payout: ₦${(salesIncentive + touchpointEarned).toFixed(0)}</h3>
     `;
   }
 
-  showResult(result);
+  showResult(resultHTML);
 }
 
 /* ---------------- PAGE SWITCH ---------------- */
@@ -155,6 +171,7 @@ function goBack() {
   document.getElementById("page2").style.display = "none";
   document.getElementById("page1").style.display = "block";
 }
+
 
 
 
