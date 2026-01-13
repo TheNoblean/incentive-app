@@ -1,3 +1,11 @@
+/* ---------------- SUPABASE SETUP ---------------- */
+const SUPABASE_URL = "https://vrbsraxcjoteibpihtjm.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyYnNyYXhjam90ZWlicGlodGptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjkyNjksImV4cCI6MjA4MzgwNTI2OX0.a3k-Lx24DgmnYrG72c3vZwXikBLKdJujS_R7xrgrrUY";
+
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+/* ---------------- LEVEL CODE MAP ---------------- */
+
 const levelMap = {
   ASM01:150000, ASM02:175000, ASM03:200000, ASM04:225000,
   ASM05:250000, ASM06:275000, ASM07:300000, ASM08:325000,
@@ -6,6 +14,32 @@ const levelMap = {
   SLP01:90000, SLP02:120000, SLP03:140000, SLP04:160000,
   SLP05:180000, SLP06:200000, SLP07:220000, SLP08:300000
 };
+
+/* ---------------- FETCH EMPLOYEE ---------------- */
+
+async function findEmployee() {
+  const code = document.getElementById("empCode").value;
+
+  if (!code) return;
+
+  const { data, error } = await supabaseClient
+    .from("employees_clean")
+    .select("*")
+    .eq("employee_code", code)
+    .single();
+
+  if (error || !data) {
+    alert("Employee not found");
+    return;
+  }
+
+  document.getElementById("empName").value = data.employee_name;
+  document.getElementById("level").value = data.level_code;
+  document.getElementById("brand").value = data.brand || "";
+}
+
+/* ---------------- FORM TOGGLE ---------------- */
+
 function toggleForm() {
   let type = document.getElementById("type").value;
   let form = document.getElementById("form");
@@ -17,11 +51,6 @@ function toggleForm() {
 
       <label>Sales Achievement</label>
       <input id="achieved" type="number">
-
-      <label>Level Code</label>
-      <select id="level">
-        ${Object.keys(levelMap).map(l => `<option>${l}</option>`).join("")}
-      </select>
 
       <label>Total Resources</label>
       <input id="resources" type="number">
@@ -48,28 +77,30 @@ function toggleForm() {
 
 toggleForm();
 
+/* ---------------- CALCULATION ---------------- */
+
 function calculate() {
-  let target = Number(document.getElementById("target").value);
-  let achieved = Number(document.getElementById("achieved").value);
-  let percent = achieved / target;
+  const target = Number(document.getElementById("target").value);
+  const achieved = Number(document.getElementById("achieved").value);
+  const percent = achieved / target;
 
   if (percent < 0.8) {
     showResult("❌ Not Eligible (Below 80%)");
     return;
   }
 
-  let type = document.getElementById("type").value;
+  const type = document.getElementById("type").value;
   let result = "";
 
   if (type === "primary") {
-    let level = document.getElementById("level").value;
-    let proposed = levelMap[level];
-    let resources = Number(document.getElementById("resources").value);
-    let qualified = Number(document.getElementById("qualified").value);
+    const level = document.getElementById("level").value;
+    const proposed = levelMap[level];
+    const resources = Number(document.getElementById("resources").value);
+    const qualified = Number(document.getElementById("qualified").value);
 
-    let generated = percent * proposed;
-    let sales = generated * 0.6;
-    let touch = (generated * 0.4 / resources) * qualified;
+    const generated = percent * proposed;
+    const sales = generated * 0.6;
+    const touch = (generated * 0.4 / resources) * qualified;
 
     result = `
       <p>Sales Incentive: <b>&#8358;${sales.toFixed(0)}</b></p>
@@ -78,11 +109,11 @@ function calculate() {
       <h3>Total Payout: &#8358;${(sales + touch).toFixed(0)}</h3>
     `;
   } else {
-    let generated = percent * 40000;
-    let sales = generated * 0.5;
-    let tpTarget = Number(document.getElementById("tpTarget").value);
-    let tpAchieved = Number(document.getElementById("tpAchieved").value);
-    let touch = tpAchieved >= tpTarget ? generated * 0.5 : 0;
+    const generated = percent * 40000;
+    const sales = generated * 0.5;
+    const tpTarget = Number(document.getElementById("tpTarget").value);
+    const tpAchieved = Number(document.getElementById("tpAchieved").value);
+    const touch = tpAchieved >= tpTarget ? generated * 0.5 : 0;
 
     result = `
       <p>Sales Incentive: <b>&#8358;${sales.toFixed(0)}</b></p>
@@ -95,6 +126,8 @@ function calculate() {
   showResult(result);
 }
 
+/* ---------------- PAGE SWITCH ---------------- */
+
 function showResult(html) {
   document.getElementById("result").innerHTML = html;
   document.getElementById("page1").style.display = "none";
@@ -105,5 +138,3 @@ function goBack() {
   document.getElementById("page2").style.display = "none";
   document.getElementById("page1").style.display = "block";
 }
-
-
