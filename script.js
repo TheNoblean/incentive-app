@@ -80,7 +80,6 @@ function toggleForm() {
   }
 }
 /* ---------------- CALCULATION ---------------- */
-
 function calculate() {
   const target = Number(document.getElementById("target").value);
   const achieved = Number(document.getElementById("achieved").value);
@@ -158,7 +157,6 @@ function calculate() {
 
   showResult(resultHTML);
 }
-
 /* ---------------- PAGE SWITCH ---------------- */
 
 function showResult(html) {
@@ -171,6 +169,7 @@ function goBack() {
   document.getElementById("page2").style.display = "none";
   document.getElementById("page1").style.display = "block";
 }
+
 
 
 
