@@ -17,15 +17,14 @@ const levelMap = {
 };
 
 /* ---------------- FETCH EMPLOYEE ---------------- */
-
 async function findEmployee() {
   const code = document.getElementById("empCode").value;
 
   if (!code) return;
 
   const { data, error } = await supabaseClient
-    .from("employees")
-    .select("*")
+    .from("employees")   // ✅ FIXED
+    .select("employee_name, level_code, designation")
     .eq("employee_code", code)
     .single();
 
@@ -36,7 +35,6 @@ async function findEmployee() {
 
   document.getElementById("empName").value = data.employee_name;
   document.getElementById("level").value = data.level_code;
-  document.getElementById("brand").value = data.brand || "";
 }
 
 /* ---------------- FORM TOGGLE ---------------- */
@@ -44,8 +42,11 @@ async function findEmployee() {
 function toggleForm() {
   let type = document.getElementById("type").value;
   let form = document.getElementById("form");
+  let employeeSection = document.getElementById("employeeSection");
 
   if (type === "primary") {
+    employeeSection.style.display = "block";
+
     form.innerHTML = `
       <label>Sales Target</label>
       <input id="target" type="number">
@@ -60,6 +61,8 @@ function toggleForm() {
       <input id="qualified" type="number">
     `;
   } else {
+    employeeSection.style.display = "none";
+
     form.innerHTML = `
       <label>Sales Target</label>
       <input id="target" type="number">
@@ -75,9 +78,6 @@ function toggleForm() {
     `;
   }
 }
-
-toggleForm();
-
 /* ---------------- CALCULATION ---------------- */
 
 function calculate() {
@@ -139,3 +139,4 @@ function goBack() {
   document.getElementById("page2").style.display = "none";
   document.getElementById("page1").style.display = "block";
 }
+
