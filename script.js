@@ -2,10 +2,10 @@ const levelMap = {
   ASM01:150000, ASM02:175000, ASM03:200000, ASM04:225000,
   ASM05:250000, ASM06:275000, ASM07:300000, ASM08:325000,
   ASM09:350000, ASM10:400000, ASM11:500000, ASM12:600000,
-  SP01:90000, SP02:120000, SP03:140000, SP04:160000,
-  SP05:180000, SP06:200000, SP07:220000, SP08:300000
-};
 
+  SLP01:90000, SLP02:120000, SLP03:140000, SLP04:160000,
+  SLP05:180000, SLP06:200000, SLP07:220000, SLP08:300000
+};
 function toggleForm() {
   let type = document.getElementById("type").value;
   let form = document.getElementById("form");
@@ -105,3 +105,4 @@ function goBack() {
   document.getElementById("page2").style.display = "none";
   document.getElementById("page1").style.display = "block";
 }
+
